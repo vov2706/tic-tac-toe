@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ButtonListFragment">
+    tools:context=".BoardListFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,21 +22,24 @@
 
             <Button
                 android:id="@+id/a1"
-                style="@style/columnItem" />
+                style="@style/columnItem"
+                android:onClick="@{() -> boardListFragment.tap()}" />
 
             <View
                 style="@style/vrLine"/>
 
             <Button
                 android:id="@+id/a2"
-                style="@style/columnItem" />
+                style="@style/columnItem"
+                android:onClick="@{() -> boardListFragment.tap()}" />
 
             <View
                 style="@style/vrLine"/>
 
             <Button
                 android:id="@+id/a3"
-                style="@style/columnItem" />
+                style="@style/columnItem"
+                android:onClick="@{() -> boardListFragment.tap()}" />
 
         </LinearLayout>
 
@@ -48,21 +51,24 @@
 
             <Button
                 android:id="@+id/b1"
-                style="@style/columnItem" />
+                style="@style/columnItem"
+                android:onClick="@{() -> boardListFragment.tap()}" />
 
             <View
                 style="@style/vrLine"/>
 
             <Button
                 android:id="@+id/b2"
-                style="@style/columnItem" />
+                style="@style/columnItem"
+                android:onClick="@{() -> boardListFragment.tap()}" />
 
             <View
                 style="@style/vrLine"/>
 
             <Button
                 android:id="@+id/b3"
-                style="@style/columnItem" />
+                style="@style/columnItem"
+                android:onClick="@{() -> boardListFragment.tap()}" />
 
         </LinearLayout>
 
