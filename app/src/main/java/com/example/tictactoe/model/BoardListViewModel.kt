@@ -24,13 +24,9 @@ class BoardListViewModel() : ViewModel() {
             button.text = CROSS
             currentSymbol = BoardCellValueEnum.ZERO
         }
-
-        if (isFullBoard()) {
-            resetBoard()
-        }
     }
 
-    private fun isFullBoard(): Boolean {
+    fun isFullBoard(): Boolean {
         for(button in boardList) {
             if (button.text == "") {
                 return false
@@ -40,9 +36,14 @@ class BoardListViewModel() : ViewModel() {
         return true
     }
 
-    private fun resetBoard() {
+    fun resetBoard() {
         for(button in boardList) {
             button.text = ""
+        }
+
+        currentSymbol = when (currentSymbol == BoardCellValueEnum.ZERO) {
+            true -> BoardCellValueEnum.CROSS
+            false -> BoardCellValueEnum.ZERO
         }
     }
 
