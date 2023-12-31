@@ -17,9 +17,4 @@ class MainActivity : AppCompatActivity() {
 
         setContentView(activityMainBinding.root)
     }
-
-    fun tap (view: View)
-    {
-
-    }
 }

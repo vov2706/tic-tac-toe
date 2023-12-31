@@ -16,31 +16,23 @@ class BoardListFragment : Fragment(), OnClickListener {
 
     private val boardListViewModel: BoardListViewModel by activityViewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        initBoard()
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         val fragmentBinding = FragmentButtonListBinding.inflate(inflater, container, false)
+        
         binding = fragmentBinding
+        
+        initBoard()
+        
         return fragmentBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        for (key in arrayOf("a", "b", "c")) {
-            for (i in 1..3) {
-                val id = resources.getIdentifier(key + i, "id", context?.packageName)
-                val button = view.findViewById<Button>(id)
-
-                button.setOnClickListener(this)
-            }
-        }
+        setButtonsEventListeners()
     }
 
     override fun onDestroyView() {
@@ -54,26 +46,31 @@ class BoardListFragment : Fragment(), OnClickListener {
         tap(view)
     }
 
-    private fun tap(button: Button)
-    {
+    private fun tap(button: Button) {
         boardListViewModel.add(button)
     }
 
     private fun initBoard() {
-        binding?.let { boardListViewModel.add(it.a1) }
-        binding?.let { boardListViewModel.add(it.a2) }
-        binding?.let { boardListViewModel.add(it.a3) }
-        binding?.let { boardListViewModel.add(it.b1) }
-        binding?.let { boardListViewModel.add(it.b2) }
-        binding?.let { boardListViewModel.add(it.b3) }
-        binding?.let { boardListViewModel.add(it.c1) }
-        binding?.let { boardListViewModel.add(it.c2) }
-        binding?.let { boardListViewModel.add(it.c3) }
+        binding?.a1?.let { boardListViewModel.boardList.add(it) }
+        binding?.a2?.let { boardListViewModel.boardList.add(it) }
+        binding?.a3?.let { boardListViewModel.boardList.add(it) }
+        binding?.b1?.let { boardListViewModel.boardList.add(it) }
+        binding?.b2?.let { boardListViewModel.boardList.add(it) }
+        binding?.b3?.let { boardListViewModel.boardList.add(it) }
+        binding?.c1?.let { boardListViewModel.boardList.add(it) }
+        binding?.c2?.let { boardListViewModel.boardList.add(it) }
+        binding?.c3?.let { boardListViewModel.boardList.add(it) }
     }
 
-    companion object
-    {
-        const val ZERO = "O"
-        const val CROSS = "X"
+    private fun setButtonsEventListeners() {
+        binding?.a1?.setOnClickListener(this)
+        binding?.a2?.setOnClickListener(this)
+        binding?.a3?.setOnClickListener(this)
+        binding?.b1?.setOnClickListener(this)
+        binding?.b2?.setOnClickListener(this)
+        binding?.b3?.setOnClickListener(this)
+        binding?.c1?.setOnClickListener(this)
+        binding?.c2?.setOnClickListener(this)
+        binding?.c3?.setOnClickListener(this)
     }
 }
