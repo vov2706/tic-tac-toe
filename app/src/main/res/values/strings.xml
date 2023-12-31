@@ -2,4 +2,7 @@
     <string name="app_name">Tic Tac Toe</string>
     <string name="tap_x">Tap X</string>
     <string name="tap_O">Tap O</string>
+    <string name="player_1">Player 1 (O)</string>
+    <string name="player_2">Player 2 (X)</string>
+    <string name="colon">:</string>
 </resources>

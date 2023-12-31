@@ -47,7 +47,6 @@ class BoardListFragment : Fragment(), OnClickListener {
 
         changeLabel()
 
-
         if (checkForVictory(ZERO)) {
             println(PLAYER1)
             boardListViewModel.resetBoard()
