@@ -17,80 +17,63 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <LinearLayout
-            style="@style/rowItem">
+        <LinearLayout style="@style/rowItem">
 
             <Button
                 android:id="@+id/a1"
-                style="@style/columnItem"
-                android:onClick="@{() -> boardListFragment.tap()}" />
+                style="@style/columnItem" />
 
-            <View
-                style="@style/vrLine"/>
+            <View style="@style/vrLine"/>
 
             <Button
                 android:id="@+id/a2"
-                style="@style/columnItem"
-                android:onClick="@{() -> boardListFragment.tap()}" />
+                style="@style/columnItem"/>
 
-            <View
-                style="@style/vrLine"/>
+            <View style="@style/vrLine"/>
 
             <Button
                 android:id="@+id/a3"
-                style="@style/columnItem"
-                android:onClick="@{() -> boardListFragment.tap()}" />
+                style="@style/columnItem" />
 
         </LinearLayout>
 
-        <View
-            style="@style/hrLine" />
+        <View style="@style/hrLine" />
 
-        <LinearLayout
-            style="@style/rowItem">
+        <LinearLayout style="@style/rowItem">
 
             <Button
                 android:id="@+id/b1"
-                style="@style/columnItem"
-                android:onClick="@{() -> boardListFragment.tap()}" />
+                style="@style/columnItem" />
 
-            <View
-                style="@style/vrLine"/>
+            <View style="@style/vrLine"/>
 
             <Button
                 android:id="@+id/b2"
-                style="@style/columnItem"
-                android:onClick="@{() -> boardListFragment.tap()}" />
+                style="@style/columnItem" />
 
-            <View
-                style="@style/vrLine"/>
+            <View style="@style/vrLine"/>
 
             <Button
                 android:id="@+id/b3"
-                style="@style/columnItem"
-                android:onClick="@{() -> boardListFragment.tap()}" />
+                style="@style/columnItem" />
 
         </LinearLayout>
 
-        <View
-            style="@style/hrLine" />
+        <View style="@style/hrLine" />
 
-        <LinearLayout
-            style="@style/rowItem">
+        <LinearLayout style="@style/rowItem">
 
             <Button
                 android:id="@+id/c1"
                 style="@style/columnItem" />
 
-            <View
-                style="@style/vrLine"/>
+            <View style="@style/vrLine"/>
 
             <Button
                 android:id="@+id/c2"
                 style="@style/columnItem" />
 
-            <View
-                style="@style/vrLine"/>
+            <View style="@style/vrLine"/>
 
             <Button
                 android:id="@+id/c3"

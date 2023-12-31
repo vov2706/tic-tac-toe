@@ -4,13 +4,14 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.fragment.app.activityViewModels
 import com.example.tictactoe.databinding.FragmentButtonListBinding
 import com.example.tictactoe.model.BoardListViewModel
 
-class BoardListFragment : Fragment() {
+class BoardListFragment : Fragment(), OnClickListener {
     private var binding: FragmentButtonListBinding? = null
 
     private val boardListViewModel: BoardListViewModel by activityViewModels()
@@ -29,11 +30,17 @@ class BoardListFragment : Fragment() {
         return fragmentBinding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?)
-    {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-//      binding?.boardListFragment = this
+        for (key in arrayOf("a", "b", "c")) {
+            for (i in 1..3) {
+                val id = resources.getIdentifier(key + i, "id", context?.packageName)
+                val button = view.findViewById<Button>(id)
+
+                button.setOnClickListener(this)
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -41,10 +48,16 @@ class BoardListFragment : Fragment() {
         binding = null
     }
 
-//    fun tap(button: Button)
-//    {
-//        boardListViewModel.add(button)
-//    }
+    override fun onClick(view: View?) {
+        if (view !is Button) return
+
+        tap(view)
+    }
+
+    private fun tap(button: Button)
+    {
+        boardListViewModel.add(button)
+    }
 
     private fun initBoard() {
         binding?.let { boardListViewModel.add(it.a1) }

@@ -6,10 +6,20 @@ import android.view.View
 import com.example.tictactoe.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    private var binding: ActivityMainBinding? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        val activityMainBinding = ActivityMainBinding.inflate(layoutInflater)
+
+        binding = activityMainBinding
+
+        setContentView(activityMainBinding.root)
+    }
+
+    fun tap (view: View)
+    {
+
     }
 }
