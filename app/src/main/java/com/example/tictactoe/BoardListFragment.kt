@@ -23,8 +23,9 @@ class BoardListFragment : Fragment(), OnClickListener {
         val fragmentBinding = FragmentButtonListBinding.inflate(inflater, container, false)
         
         binding = fragmentBinding
-        
+
         initBoard()
+        changeLabel()
         
         return fragmentBinding.root
     }
@@ -48,6 +49,14 @@ class BoardListFragment : Fragment(), OnClickListener {
 
     private fun tap(button: Button) {
         boardListViewModel.add(button)
+        changeLabel()
+    }
+
+    private fun changeLabel() {
+        binding?.label?.text = when (boardListViewModel.currentSymbol == BoardCellValueEnum.ZERO) {
+            true -> getString(R.string.tap_O)
+            false -> getString(R.string.tap_x)
+        }
     }
 
     private fun initBoard() {

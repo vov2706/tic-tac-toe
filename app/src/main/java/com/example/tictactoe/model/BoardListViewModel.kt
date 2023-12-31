@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import com.example.tictactoe.BoardCellValueEnum
 
 class BoardListViewModel() : ViewModel() {
-     val boardList = mutableListOf<Button>()
-    private var currentSymbol = BoardCellValueEnum.ZERO
+    val boardList = mutableListOf<Button>()
+    var currentSymbol = BoardCellValueEnum.ZERO
 
     fun add(button: Button?) {
         if (button == null) {
