@@ -7,6 +7,7 @@ import com.example.tictactoe.BoardCellValueEnum
 class BoardListViewModel() : ViewModel() {
     val boardList = mutableListOf<Button>()
     var currentSymbol = BoardCellValueEnum.ZERO
+    var tappedSymbol = BoardCellValueEnum.ZERO
     var playerOneScore = 0
     var playerTwoScore = 0
     var isWin = false
@@ -23,14 +24,16 @@ class BoardListViewModel() : ViewModel() {
         if(currentSymbol == BoardCellValueEnum.ZERO) {
             button.text = ZERO
             currentSymbol = BoardCellValueEnum.CROSS
-        } else if(currentSymbol == BoardCellValueEnum.CROSS) {
+            tappedSymbol = BoardCellValueEnum.ZERO;
+        } else {
             button.text = CROSS
             currentSymbol = BoardCellValueEnum.ZERO
+            tappedSymbol = BoardCellValueEnum.CROSS;
         }
     }
 
     fun incrementScore() {
-        if(currentSymbol == BoardCellValueEnum.ZERO) {
+        if(tappedSymbol == BoardCellValueEnum.ZERO) {
             playerOneScore++
         } else {
             playerTwoScore++

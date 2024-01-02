@@ -76,7 +76,7 @@ class BoardListFragment : Fragment(), OnClickListener {
     }
 
     private fun checkForVictory(): Boolean {
-        val str = when (boardListViewModel.currentSymbol) {
+        val str = when (boardListViewModel.tappedSymbol) {
             BoardCellValueEnum.ZERO -> ZERO
             BoardCellValueEnum.CROSS -> CROSS
         }
@@ -118,7 +118,7 @@ class BoardListFragment : Fragment(), OnClickListener {
     private fun match(button: Button, symbol : String): Boolean = button.text == symbol
 
     private fun result(isFullBoard: Boolean = false) {
-        var title = when (boardListViewModel.currentSymbol) {
+        var title = when (boardListViewModel.tappedSymbol) {
             BoardCellValueEnum.ZERO -> "Player 1 won!"
             BoardCellValueEnum.CROSS -> "Player 2 won!"
         }
