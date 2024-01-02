@@ -5,4 +5,6 @@
     <string name="player_1">Player 1 (O)</string>
     <string name="player_2">Player 2 (X)</string>
     <string name="colon">:</string>
+    <string name="play_again">Play again</string>
+    <string name="exit_the_game">Exit the game</string>
 </resources>

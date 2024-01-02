@@ -1,5 +1,6 @@
 package com.example.tictactoe
 
+import android.app.ProgressDialog.show
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import com.example.tictactoe.databinding.FragmentButtonListBinding
 import com.example.tictactoe.model.BoardListViewModel
@@ -29,7 +31,7 @@ class BoardListFragment : Fragment(), OnClickListener {
         initBoard()
         changeLabel()
         initScores()
-        
+
         return fragmentBinding.root
     }
 
@@ -127,20 +129,29 @@ class BoardListFragment : Fragment(), OnClickListener {
             title = "Draw"
         }
 
-        context?.let {
-            AlertDialog.Builder(it)
-                .setTitle(title)
-                .setNegativeButton("Exit the game")
-                { _,_ ->
-                    exitProcess(0)
-                }
-                .setPositiveButton("Play again")
-                { _,_ ->
-                    boardListViewModel.resetBoard()
-                }
-                .setCancelable(false)
-                .show()
+        val alertDialog = AlertDialog.Builder(requireContext(), R.style.AlertDialog).create()
+        val alertDialogView = layoutInflater.inflate(R.layout.alert_layout,null)
+
+        val textTitle = alertDialogView.findViewById<TextView>(R.id.alertTitle)
+        textTitle.text = title
+
+        val exitButton = alertDialogView.findViewById<Button>(R.id.alertExitButton)
+
+        alertDialog.setView(alertDialogView)
+
+        exitButton.setOnClickListener {
+            exitProcess(0)
         }
+
+        val playAgainButton = alertDialogView.findViewById<Button>(R.id.alertPlayAgainButton)
+
+        playAgainButton.setOnClickListener {
+            boardListViewModel.resetBoard()
+            alertDialog.hide()
+        }
+
+        alertDialog.setCancelable(false)
+        alertDialog.show()
     }
 
     private fun changeLabel() {
