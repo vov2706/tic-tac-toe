@@ -10,6 +10,8 @@ import android.widget.Button
 import androidx.fragment.app.activityViewModels
 import com.example.tictactoe.databinding.FragmentButtonListBinding
 import com.example.tictactoe.model.BoardListViewModel
+import androidx.appcompat.app.AlertDialog
+import kotlin.system.exitProcess
 
 class BoardListFragment : Fragment(), OnClickListener {
     private lateinit var binding: FragmentButtonListBinding
@@ -26,6 +28,7 @@ class BoardListFragment : Fragment(), OnClickListener {
 
         initBoard()
         changeLabel()
+        initScores()
         
         return fragmentBinding.root
     }
@@ -47,24 +50,31 @@ class BoardListFragment : Fragment(), OnClickListener {
 
         changeLabel()
 
-        if (checkForVictory(ZERO)) {
-            println(PLAYER1)
-            boardListViewModel.resetBoard()
+        if (checkForVictory(BoardCellValueEnum.ZERO)) {
+            boardListViewModel.incrementScore(BoardCellValueEnum.ZERO)
+            result("Player 1 Win!")
+            initScores()
             return;
         }
 
-        if (checkForVictory(CROSS)) {
-            println(PLAYER2)
-            boardListViewModel.resetBoard()
+        if (checkForVictory(BoardCellValueEnum.CROSS)) {
+            boardListViewModel.incrementScore(BoardCellValueEnum.CROSS)
+            result("Player 2 Win!")
+            initScores()
             return;
         }
 
         if (boardListViewModel.isFullBoard()) {
-            boardListViewModel.resetBoard()
+            result("Draw")
         }
     }
 
-    private fun checkForVictory(s: String): Boolean {
+    private fun checkForVictory(type: BoardCellValueEnum): Boolean {
+        val s = when (type) {
+            BoardCellValueEnum.ZERO -> ZERO
+            BoardCellValueEnum.CROSS -> CROSS
+        }
+
         //Horizontal Victory
         if(match(binding.a1,s) && match(binding.a2,s) && match(binding.a3,s)) {
             return true
@@ -101,11 +111,36 @@ class BoardListFragment : Fragment(), OnClickListener {
 
     private fun match(button: Button, symbol : String): Boolean = button.text == symbol
 
+    private fun result(result: String) {
+        val message = "\n $PLAYER1 - ${boardListViewModel.playerOneScore}\n\n $PLAYER2 - ${boardListViewModel.playerTwoScore}"
+
+        context?.let {
+            AlertDialog.Builder(it)
+                .setTitle(result)
+                .setMessage(message)
+                .setNegativeButton("Exit the game")
+                { _,_ ->
+                    exitProcess(0)
+                }
+                .setPositiveButton("Play again")
+                { _,_ ->
+                    boardListViewModel.resetBoard()
+                }
+                .setCancelable(false)
+                .show()
+        }
+    }
+
     private fun changeLabel() {
         binding.label.text = when (boardListViewModel.currentSymbol == BoardCellValueEnum.ZERO) {
             true -> getString(R.string.tap_O)
             false -> getString(R.string.tap_x)
         }
+    }
+
+    private fun initScores() {
+        binding.player1Score.text = boardListViewModel.playerOneScore.toString()
+        binding.player2Score.text = boardListViewModel.playerTwoScore.toString()
     }
 
     private fun initBoard() {
