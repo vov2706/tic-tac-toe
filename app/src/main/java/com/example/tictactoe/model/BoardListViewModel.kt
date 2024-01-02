@@ -9,6 +9,7 @@ class BoardListViewModel() : ViewModel() {
     var currentSymbol = BoardCellValueEnum.ZERO
     var playerOneScore = 0
     var playerTwoScore = 0
+    var isWin = false
 
     fun add(button: Button?) {
         if (button == null) {
@@ -28,10 +29,10 @@ class BoardListViewModel() : ViewModel() {
         }
     }
 
-    fun incrementScore(type: BoardCellValueEnum) {
-        if(type == BoardCellValueEnum.ZERO) {
+    fun incrementScore() {
+        if(currentSymbol == BoardCellValueEnum.ZERO) {
             playerOneScore++
-        } else if(type == BoardCellValueEnum.CROSS) {
+        } else {
             playerTwoScore++
         }
     }
@@ -55,6 +56,8 @@ class BoardListViewModel() : ViewModel() {
             true -> BoardCellValueEnum.CROSS
             false -> BoardCellValueEnum.ZERO
         }
+
+        isWin = false
     }
 
     companion object {

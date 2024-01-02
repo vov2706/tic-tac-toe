@@ -46,78 +46,90 @@ class BoardListFragment : Fragment(), OnClickListener {
     }
 
     private fun tap(button: Button) {
-        boardListViewModel.add(button)
+        if (!boardListViewModel.isWin) {
+            boardListViewModel.add(button)
 
-        changeLabel()
+            // switch header text after every click
+            changeLabel()
 
-        if (checkForVictory(BoardCellValueEnum.ZERO)) {
-            boardListViewModel.incrementScore(BoardCellValueEnum.ZERO)
-            result("Player 1 Win!")
-            initScores()
-            return;
-        }
+            if (checkForVictory()) {
+                // set winning status
+                boardListViewModel.isWin = true
 
-        if (checkForVictory(BoardCellValueEnum.CROSS)) {
-            boardListViewModel.incrementScore(BoardCellValueEnum.CROSS)
-            result("Player 2 Win!")
-            initScores()
-            return;
-        }
+                // add +1 win in player score
+                boardListViewModel.incrementScore()
 
-        if (boardListViewModel.isFullBoard()) {
-            result("Draw")
+                // Output alert dialog
+                result()
+
+                // render scores in footer
+                initScores()
+
+                return;
+            }
+
+            // Draw
+            if (boardListViewModel.isFullBoard()) {
+                result(true)
+            }
         }
     }
 
-    private fun checkForVictory(type: BoardCellValueEnum): Boolean {
-        val s = when (type) {
+    private fun checkForVictory(): Boolean {
+        val str = when (boardListViewModel.currentSymbol) {
             BoardCellValueEnum.ZERO -> ZERO
             BoardCellValueEnum.CROSS -> CROSS
         }
 
         //Horizontal Victory
-        if(match(binding.a1,s) && match(binding.a2,s) && match(binding.a3,s)) {
+        if(match(binding.a1,str) && match(binding.a2,str) && match(binding.a3,str)) {
             return true
         }
 
-        if(match(binding.b1,s) && match(binding.b2,s) && match(binding.b3,s)) {
+        if(match(binding.b1,str) && match(binding.b2,str) && match(binding.b3,str)) {
             return true
         }
 
-        if(match(binding.c1,s) && match(binding.c2,s) && match(binding.c3,s)) {
+        if(match(binding.c1,str) && match(binding.c2,str) && match(binding.c3,str)) {
             return true
         }
 
         //Vertical Victory
-        if(match(binding.a1,s) && match(binding.b1,s) && match(binding.c1,s)) {
+        if(match(binding.a1,str) && match(binding.b1,str) && match(binding.c1,str)) {
             return true
         }
 
-        if(match(binding.a2,s) && match(binding.b2,s) && match(binding.c2,s)) {
+        if(match(binding.a2,str) && match(binding.b2,str) && match(binding.c2,str)) {
             return true
         }
 
-        if(match(binding.a3,s) && match(binding.b3,s) && match(binding.c3,s)) {
+        if(match(binding.a3,str) && match(binding.b3,str) && match(binding.c3,str)) {
             return true
         }
 
         //Diagonal Victory
-        if(match(binding.a1,s) && match(binding.b2,s) && match(binding.c3,s)) {
+        if(match(binding.a1,str) && match(binding.b2,str) && match(binding.c3,str)) {
             return true
         }
 
-        return match(binding.a3,s) && match(binding.b2,s) && match(binding.c1,s)
+        return match(binding.a3,str) && match(binding.b2,str) && match(binding.c1,str)
     }
 
     private fun match(button: Button, symbol : String): Boolean = button.text == symbol
 
-    private fun result(result: String) {
-        val message = "\n $PLAYER1 - ${boardListViewModel.playerOneScore}\n\n $PLAYER2 - ${boardListViewModel.playerTwoScore}"
+    private fun result(isFullBoard: Boolean = false) {
+        var title = when (boardListViewModel.currentSymbol) {
+            BoardCellValueEnum.ZERO -> "Player 1 won!"
+            BoardCellValueEnum.CROSS -> "Player 2 won!"
+        }
+
+        if (isFullBoard) {
+            title = "Draw"
+        }
 
         context?.let {
             AlertDialog.Builder(it)
-                .setTitle(result)
-                .setMessage(message)
+                .setTitle(title)
                 .setNegativeButton("Exit the game")
                 { _,_ ->
                     exitProcess(0)
