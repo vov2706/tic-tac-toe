@@ -6,6 +6,12 @@
         <item name="android:layout_height">0dp</item>
     </style>
 
+    <style name="landscapeRowItem">
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">20dp</item>
+    </style>
+
     <style name="columnItem">
         <item name="android:layout_weight">1</item>
         <item name="android:layout_width">5dp</item>
@@ -13,6 +19,16 @@
         <item name="android:textColor">?attr/colorPrimary</item>
         <item name="android:background">@android:color/transparent</item>
         <item name="android:textSize">50sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="landscapeColumnItem">
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">5dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textSize">10sp</item>
         <item name="android:textStyle">bold</item>
     </style>
 

@@ -1,10 +1,14 @@
 package com.example.tictactoe.model
 
 import android.widget.Button
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.tictactoe.BoardCellValueEnum
 
 class BoardListViewModel() : ViewModel() {
+//    val boardList: MutableLiveData<List<Button>> by lazy {
+//        MutableLiveData<List<Button>>()
+//    }
     val boardList = mutableListOf<Button>()
     var currentSymbol = BoardCellValueEnum.ZERO
     var tappedSymbol = BoardCellValueEnum.ZERO

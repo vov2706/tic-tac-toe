@@ -4,26 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="horizontal"
     tools:context=".BoardListFragment">
 
     <TextView
         android:id="@+id/label"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginBottom="60dp"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
         android:fontFamily="sans-serif-medium"
         android:paddingVertical="15dp"
+        android:text="Turn X"
         android:textAlignment="center"
         android:textSize="48sp"
-        android:text="Text"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/linearLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="0dp"
         android:orientation="vertical"
         android:padding="20dp"
@@ -37,7 +37,8 @@
 
             <Button
                 android:id="@+id/a1"
-                style="@style/columnItem" />
+                style="@style/columnItem"
+                android:layout_height="match_parent" />
 
             <View style="@style/vrLine" />
 
@@ -55,7 +56,7 @@
 
         <View style="@style/hrLine" />
 
-        <LinearLayout style="@style/rowItem">
+        <LinearLayout style="@style/landscapeRowItem">
 
             <Button
                 android:id="@+id/b1"
@@ -76,7 +77,7 @@
         </LinearLayout>
 
         <View style="@style/hrLine" />
-
+`
         <LinearLayout style="@style/rowItem">
 
             <Button
@@ -100,28 +101,31 @@
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:paddingTop="50dp"
+        android:paddingBottom="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        tools:layout_editor_absoluteX="1dp">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/player_1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/player_1"
+            android:textAlignment="center"
             android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/scoreLayout"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/scoreLayout"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/scoreLayout"
-            android:layout_width="100dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="15dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginBottom="100dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -131,8 +135,9 @@
                 android:id="@+id/player_1_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="15dp"
+                android:layout_marginStart="20dp"
                 android:fontFamily="sans-serif-medium"
+                android:text="0"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/colon"
@@ -143,9 +148,9 @@
                 android:id="@+id/colon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
                 android:text="@string/colon"
                 android:textSize="24sp"
-                android:fontFamily="sans-serif-medium"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -155,7 +160,7 @@
                 android:id="@+id/player_2_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
+                android:layout_marginEnd="20dp"
                 android:fontFamily="sans-serif-medium"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -163,18 +168,18 @@
                 app:layout_constraintStart_toEndOf="@+id/colon"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="0" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
             android:id="@+id/player_2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/player_2"
+            android:textAlignment="center"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/scoreLayout"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/scoreLayout" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
