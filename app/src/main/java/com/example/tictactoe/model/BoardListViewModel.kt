@@ -6,15 +6,17 @@ import androidx.lifecycle.ViewModel
 import com.example.tictactoe.BoardCellValueEnum
 
 class BoardListViewModel() : ViewModel() {
-//    val boardList: MutableLiveData<List<Button>> by lazy {
-//        MutableLiveData<List<Button>>()
-//    }
-    val boardList = mutableListOf<Button>()
+    val boardList: MutableLiveData<MutableList<Button>> = MutableLiveData<MutableList<Button>>()
+
     var currentSymbol = BoardCellValueEnum.ZERO
     var tappedSymbol = BoardCellValueEnum.ZERO
     var playerOneScore = 0
     var playerTwoScore = 0
     var isWin = false
+
+    init {
+        boardList.value = mutableListOf<Button>()
+    }
 
     fun add(button: Button?) {
         if (button == null) {
@@ -45,7 +47,7 @@ class BoardListViewModel() : ViewModel() {
     }
 
     fun isFullBoard(): Boolean {
-        for(button in boardList) {
+        for(button in boardList.value!!) {
             if (button.text == "") {
                 return false
             }
@@ -55,7 +57,7 @@ class BoardListViewModel() : ViewModel() {
     }
 
     fun resetBoard() {
-        for(button in boardList) {
+        for(button in boardList.value!!) {
             button.text = ""
         }
 

@@ -1,6 +1,5 @@
 package com.example.tictactoe
 
-import android.app.ProgressDialog.show
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,12 +12,33 @@ import androidx.fragment.app.activityViewModels
 import com.example.tictactoe.databinding.FragmentButtonListBinding
 import com.example.tictactoe.model.BoardListViewModel
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.Observer
 import kotlin.system.exitProcess
 
 class BoardListFragment : Fragment(), OnClickListener {
     private lateinit var binding: FragmentButtonListBinding
 
     private val boardListViewModel: BoardListViewModel by activityViewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        boardListViewModel.boardList.observe(this, Observer {
+            for (button in it) {
+                when (button.id) {
+                    binding.a1.id -> binding.a1.text = button.text
+                    binding.a2.id -> binding.a2.text = button.text
+                    binding.a3.id -> binding.a3.text = button.text
+                    binding.b1.id -> binding.b1.text = button.text
+                    binding.b2.id -> binding.b2.text = button.text
+                    binding.b3.id -> binding.b3.text = button.text
+                    binding.c1.id -> binding.c1.text = button.text
+                    binding.c2.id -> binding.c2.text = button.text
+                    binding.c3.id -> binding.c3.text = button.text
+                }
+            }
+        })
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,6 +51,10 @@ class BoardListFragment : Fragment(), OnClickListener {
         initBoard()
         changeLabel()
         initScores()
+
+        if (boardListViewModel.isWin) {
+            result()
+        }
 
         return fragmentBinding.root
     }
@@ -167,15 +191,15 @@ class BoardListFragment : Fragment(), OnClickListener {
     }
 
     private fun initBoard() {
-        binding.a1.let { boardListViewModel.boardList.add(it) }
-        binding.a2.let { boardListViewModel.boardList.add(it) }
-        binding.a3.let { boardListViewModel.boardList.add(it) }
-        binding.b1.let { boardListViewModel.boardList.add(it) }
-        binding.b2.let { boardListViewModel.boardList.add(it) }
-        binding.b3.let { boardListViewModel.boardList.add(it) }
-        binding.c1.let { boardListViewModel.boardList.add(it) }
-        binding.c2.let { boardListViewModel.boardList.add(it) }
-        binding.c3.let { boardListViewModel.boardList.add(it) }
+        binding.a1.let { boardListViewModel.boardList.value?.add(it) }
+        binding.a2.let { boardListViewModel.boardList.value?.add(it) }
+        binding.a3.let { boardListViewModel.boardList.value?.add(it) }
+        binding.b1.let { boardListViewModel.boardList.value?.add(it) }
+        binding.b2.let { boardListViewModel.boardList.value?.add(it) }
+        binding.b3.let { boardListViewModel.boardList.value?.add(it) }
+        binding.c1.let { boardListViewModel.boardList.value?.add(it) }
+        binding.c2.let { boardListViewModel.boardList.value?.add(it) }
+        binding.c3.let { boardListViewModel.boardList.value?.add(it) }
     }
 
     private fun setButtonsEventListeners() {
@@ -193,7 +217,5 @@ class BoardListFragment : Fragment(), OnClickListener {
     companion object {
         const val ZERO = "O"
         const val CROSS = "X"
-        const val PLAYER1 = "Player 1 (O)"
-        const val PLAYER2 = "Player 2 (X)"
     }
 }
