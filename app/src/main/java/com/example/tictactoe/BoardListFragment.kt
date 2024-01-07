@@ -1,6 +1,7 @@
 package com.example.tictactoe
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -37,6 +38,10 @@ class BoardListFragment : Fragment(), OnClickListener {
                     binding.c3.id -> binding.c3.text = button.text
                 }
             }
+        })
+
+        boardListViewModel.currentSymbol.observe(this, Observer {
+            changeLabel(it)
         })
     }
 
@@ -178,8 +183,15 @@ class BoardListFragment : Fragment(), OnClickListener {
         alertDialog.show()
     }
 
-    private fun changeLabel() {
-        binding.label.text = when (boardListViewModel.currentSymbol == BoardCellValueEnum.ZERO) {
+    private fun changeLabel(currentSymbol: BoardCellValueEnum? = null) {
+
+        var current = currentSymbol
+
+        if (current === null) {
+            current = boardListViewModel.currentSymbol.value
+        }
+
+        binding.label.text = when (current == BoardCellValueEnum.ZERO) {
             true -> getString(R.string.tap_O)
             false -> getString(R.string.tap_x)
         }
@@ -191,6 +203,15 @@ class BoardListFragment : Fragment(), OnClickListener {
     }
 
     private fun initBoard() {
+        Log.d("a1", binding.a1.id.toString())
+        Log.d("a2", binding.a2.id.toString())
+        Log.d("a3", binding.a3.id.toString())
+        Log.d("b1", binding.b1.id.toString())
+        Log.d("b2", binding.b2.id.toString())
+        Log.d("b3", binding.b3.id.toString())
+        Log.d("c1", binding.c1.id.toString())
+        Log.d("c2", binding.c2.id.toString())
+        Log.d("c3", binding.c3.id.toString())
         binding.a1.let { boardListViewModel.boardList.value?.add(it) }
         binding.a2.let { boardListViewModel.boardList.value?.add(it) }
         binding.a3.let { boardListViewModel.boardList.value?.add(it) }
