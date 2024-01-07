@@ -1,7 +1,6 @@
 package com.example.tictactoe
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,41 +8,17 @@ import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
-import androidx.fragment.app.activityViewModels
 import com.example.tictactoe.databinding.FragmentButtonListBinding
-import com.example.tictactoe.model.BoardListViewModel
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.example.tictactoe.model.BoardListViewModel
 import kotlin.system.exitProcess
 
 class BoardListFragment : Fragment(), OnClickListener {
     private lateinit var binding: FragmentButtonListBinding
 
-    private val boardListViewModel: BoardListViewModel by activityViewModels()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        boardListViewModel.boardList.observe(this, Observer {
-            for (button in it) {
-                when (button.id) {
-                    binding.a1.id -> binding.a1.text = button.text
-                    binding.a2.id -> binding.a2.text = button.text
-                    binding.a3.id -> binding.a3.text = button.text
-                    binding.b1.id -> binding.b1.text = button.text
-                    binding.b2.id -> binding.b2.text = button.text
-                    binding.b3.id -> binding.b3.text = button.text
-                    binding.c1.id -> binding.c1.text = button.text
-                    binding.c2.id -> binding.c2.text = button.text
-                    binding.c3.id -> binding.c3.text = button.text
-                }
-            }
-        })
-
-        boardListViewModel.currentSymbol.observe(this, Observer {
-            changeLabel(it)
-        })
-    }
+    private lateinit var viewModel: BoardListViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,21 +28,19 @@ class BoardListFragment : Fragment(), OnClickListener {
         
         binding = fragmentBinding
 
-        initBoard()
-        changeLabel()
+        viewModel = ViewModelProvider(this)[BoardListViewModel::class.java]
+
+        setObservers()
+
         initScores()
 
-        if (boardListViewModel.isWin) {
+        setButtonsEventListeners()
+
+        if (viewModel.isWin) {
             result()
         }
 
         return fragmentBinding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        setButtonsEventListeners()
     }
 
     override fun onClick(view: View?) {
@@ -77,18 +50,23 @@ class BoardListFragment : Fragment(), OnClickListener {
     }
 
     private fun tap(button: Button) {
-        if (!boardListViewModel.isWin) {
-            boardListViewModel.add(button)
+        if (!viewModel.isWin) {
+
+            if(button.text != "") {
+                return
+            }
+
+            viewModel.add(button)
 
             // switch header text after every click
             changeLabel()
 
             if (checkForVictory()) {
                 // set winning status
-                boardListViewModel.isWin = true
+                viewModel.isWin = true
 
                 // add +1 win in player score
-                boardListViewModel.incrementScore()
+                viewModel.incrementScore()
 
                 // Output alert dialog
                 result()
@@ -100,14 +78,14 @@ class BoardListFragment : Fragment(), OnClickListener {
             }
 
             // Draw
-            if (boardListViewModel.isFullBoard()) {
+            if (viewModel.isFullBoard()) {
                 result(true)
             }
         }
     }
 
     private fun checkForVictory(): Boolean {
-        val str = when (boardListViewModel.tappedSymbol) {
+        val str = when (viewModel.tappedSymbol) {
             BoardCellValueEnum.ZERO -> ZERO
             BoardCellValueEnum.CROSS -> CROSS
         }
@@ -149,7 +127,7 @@ class BoardListFragment : Fragment(), OnClickListener {
     private fun match(button: Button, symbol : String): Boolean = button.text == symbol
 
     private fun result(isFullBoard: Boolean = false) {
-        var title = when (boardListViewModel.tappedSymbol) {
+        var title = when (viewModel.tappedSymbol) {
             BoardCellValueEnum.ZERO -> "Player 1 won!"
             BoardCellValueEnum.CROSS -> "Player 2 won!"
         }
@@ -175,7 +153,7 @@ class BoardListFragment : Fragment(), OnClickListener {
         val playAgainButton = alertDialogView.findViewById<Button>(R.id.alertPlayAgainButton)
 
         playAgainButton.setOnClickListener {
-            boardListViewModel.resetBoard()
+            viewModel.resetBoard()
             alertDialog.hide()
         }
 
@@ -188,7 +166,7 @@ class BoardListFragment : Fragment(), OnClickListener {
         var current = currentSymbol
 
         if (current === null) {
-            current = boardListViewModel.currentSymbol.value
+            current = viewModel.currentSymbol.value
         }
 
         binding.label.text = when (current == BoardCellValueEnum.ZERO) {
@@ -198,29 +176,44 @@ class BoardListFragment : Fragment(), OnClickListener {
     }
 
     private fun initScores() {
-        binding.player1Score.text = boardListViewModel.playerOneScore.toString()
-        binding.player2Score.text = boardListViewModel.playerTwoScore.toString()
+        binding.player1Score.text = viewModel.playerOneScore.toString()
+        binding.player2Score.text = viewModel.playerTwoScore.toString()
     }
 
     private fun initBoard() {
-        Log.d("a1", binding.a1.id.toString())
-        Log.d("a2", binding.a2.id.toString())
-        Log.d("a3", binding.a3.id.toString())
-        Log.d("b1", binding.b1.id.toString())
-        Log.d("b2", binding.b2.id.toString())
-        Log.d("b3", binding.b3.id.toString())
-        Log.d("c1", binding.c1.id.toString())
-        Log.d("c2", binding.c2.id.toString())
-        Log.d("c3", binding.c3.id.toString())
-        binding.a1.let { boardListViewModel.boardList.value?.add(it) }
-        binding.a2.let { boardListViewModel.boardList.value?.add(it) }
-        binding.a3.let { boardListViewModel.boardList.value?.add(it) }
-        binding.b1.let { boardListViewModel.boardList.value?.add(it) }
-        binding.b2.let { boardListViewModel.boardList.value?.add(it) }
-        binding.b3.let { boardListViewModel.boardList.value?.add(it) }
-        binding.c1.let { boardListViewModel.boardList.value?.add(it) }
-        binding.c2.let { boardListViewModel.boardList.value?.add(it) }
-        binding.c3.let { boardListViewModel.boardList.value?.add(it) }
+        viewModel.boardList.value?.add(binding.a1)
+        viewModel.boardList.value?.add(binding.a2)
+        viewModel.boardList.value?.add(binding.a3)
+        viewModel.boardList.value?.add(binding.b1)
+        viewModel.boardList.value?.add(binding.b2)
+        viewModel.boardList.value?.add(binding.b3)
+        viewModel.boardList.value?.add(binding.c1)
+        viewModel.boardList.value?.add(binding.c2)
+        viewModel.boardList.value?.add(binding.c3)
+    }
+
+    private fun setObservers() {
+        viewModel.boardList.observe(viewLifecycleOwner, Observer {
+            for (button in it) {
+                when (button.id) {
+                    binding.a1.id -> binding.a1.text = button.text.toString()
+                    binding.a2.id -> binding.a2.text = button.text.toString()
+                    binding.a3.id -> binding.a3.text = button.text.toString()
+                    binding.b1.id -> binding.b1.text = button.text.toString()
+                    binding.b2.id -> binding.b2.text = button.text.toString()
+                    binding.b3.id -> binding.b3.text = button.text.toString()
+                    binding.c1.id -> binding.c1.text = button.text.toString()
+                    binding.c2.id -> binding.c2.text = button.text.toString()
+                    binding.c3.id -> binding.c3.text = button.text.toString()
+                }
+            }
+
+            initBoard()
+        })
+
+        viewModel.currentSymbol.observe(viewLifecycleOwner, Observer {
+            changeLabel(it)
+        })
     }
 
     private fun setButtonsEventListeners() {
