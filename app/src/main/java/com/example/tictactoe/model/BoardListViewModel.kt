@@ -5,7 +5,6 @@ import android.widget.Button
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.tictactoe.BoardCellValueEnum
-import com.example.tictactoe.R
 
 class BoardListViewModel() : ViewModel() {
     val boardList: MutableLiveData<MutableList<Button>> = MutableLiveData<MutableList<Button>>()
@@ -38,6 +37,13 @@ class BoardListViewModel() : ViewModel() {
             currentSymbol.value = BoardCellValueEnum.ZERO
             tappedSymbol = BoardCellValueEnum.CROSS;
         }
+
+        for (btn in boardList.value!!) {
+            if (btn.id == button.id) {
+                Log.d("add", button.text.toString())
+                btn.text = button.text
+            }
+        }
     }
 
     fun incrementScore() {
@@ -49,19 +55,12 @@ class BoardListViewModel() : ViewModel() {
     }
 
     fun isFullBoard(): Boolean {
+        if ((boardList.value?.count() ?: 0) <= 0) {
+            return false
+        }
+
         for(button in boardList.value!!) {
-            when (button.id) {
-                R.id.a1 -> Log.d("view model a1", button.text.toString())
-                R.id.a2 -> Log.d("view model a2", button.text.toString())
-                R.id.a3 -> Log.d("view model a3", button.text.toString())
-                R.id.b1 -> Log.d("view model b1", button.text.toString())
-                R.id.b2 -> Log.d("view model b2", button.text.toString())
-                R.id.b3 -> Log.d("view model b3", button.text.toString())
-                R.id.c1 -> Log.d("view model c1", button.text.toString())
-                R.id.c2 -> Log.d("view model c2", button.text.toString())
-                R.id.c3 -> Log.d("view model c3", button.text.toString())
-            }
-            if (button.text == "") {
+            if (button.text.toString() == "") {
                 return false
             }
         }

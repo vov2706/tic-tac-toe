@@ -40,6 +40,10 @@ class BoardListFragment : Fragment(), OnClickListener {
             result()
         }
 
+        if (viewModel.isFullBoard()) {
+            result(true)
+        }
+
         return fragmentBinding.root
     }
 
