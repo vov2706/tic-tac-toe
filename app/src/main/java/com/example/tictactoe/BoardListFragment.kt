@@ -38,9 +38,7 @@ class BoardListFragment : Fragment(), OnClickListener {
 
         if (viewModel.isWin) {
             result()
-        }
-
-        if (viewModel.isFullBoard()) {
+        } else if (viewModel.isFullBoard()) {
             result(true)
         }
 
